@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sala-interativa-v1';
+const CACHE_NAME = 'sala-interativa-v1.1'';
 // Arquivos salvos no dispositivo
 const assets = [
   '/',
@@ -35,3 +35,4 @@ self.addEventListener('fetch', (event) => {
     })
   );
 });
+
