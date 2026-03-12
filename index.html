@@ -2,10 +2,27 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
+    <meta name="theme-color" content="#4CC3D9">
+
     <title>Sala Interativa Modular</title>
+
     <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.10.0/nipplejs.min.js"></script>
     <script src="logica.js"></script>
+
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/192/2590/2590500.png">
+    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/192/2590/2590500.png">
+    <link rel="manifest" href="manifest.json">
+
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+            navigator.serviceWorker.register('sw.js')
+                .then(reg => console.log('Service Worker ok!', reg))
+                .catch(err => console.log('Erro ao registrar SW:', err));
+            });
+        }
+    </script>
 </head>
 <body>
     <div id="container-ui" style="position: absolute; bottom: 20px; left: 20px; width: 150px; height: 150px; z-index: 999;">
