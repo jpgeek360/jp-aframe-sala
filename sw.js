@@ -36,3 +36,17 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
+// Avisa usuário, sobre atualização no sistema
+navigator.serviceWorker.register('sw.js').then(reg => {
+  reg.addEventListener('updatefound', () => {
+    const newWorker = reg.installing;
+    newWorker.addEventListener('statechange', () => {
+      if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+        console.log('Nova versão disponível! Por favor, recarregue a página.');
+        if(confirm("Nova atualização disponível! Deseja carregar agora?")) {
+            window.location.reload();
+        }
+      }
+    });
+  });
+});
