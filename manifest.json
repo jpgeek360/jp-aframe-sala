@@ -4,7 +4,7 @@
   "description": "App ",
   "start_url": "index.html",
   "display": "standalone",
-  "background_color": "#D2B48C",
+  "background_color": "#002db3",
   "theme_color": "#4CC3D9",
   "icons": [
     {
@@ -19,3 +19,4 @@
     }
   ]
 }
+
