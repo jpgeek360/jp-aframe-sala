@@ -1,4 +1,4 @@
-const CACHE_NAME = 'sala-interativa-v1.1'';
+const CACHE_NAME = 'sala-interativa-v1.3';
 // Arquivos salvos no dispositivo
 const assets = [
   '/',
@@ -36,12 +36,13 @@ self.addEventListener('fetch', (event) => {
   );
 });
 
-// Avisa usuário, sobre atualização no sistema
+// Dentro do seu script de registro do Service Worker
 navigator.serviceWorker.register('sw.js').then(reg => {
   reg.addEventListener('updatefound', () => {
     const newWorker = reg.installing;
     newWorker.addEventListener('statechange', () => {
       if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+        // Aqui você pode mostrar um alerta ou botão "Atualizar Agora"
         console.log('Nova versão disponível! Por favor, recarregue a página.');
         if(confirm("Nova atualização disponível! Deseja carregar agora?")) {
             window.location.reload();
