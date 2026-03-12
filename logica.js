@@ -1,8 +1,6 @@
 // ==========================================
 // VARIÁVEIS GLOBAIS DOS CANAIS
 // ==========================================
-// A lista de canais agora suporta quantos vídeos você quiser!
-// Adicionei o '#video3' como exemplo de como é fácil expandir.
 var listaCanais = ['#video1', '#video2', '#video3'];
 var indiceCanalAtual = 0; 
 
@@ -162,4 +160,5 @@ AFRAME.registerComponent('controle-joystick', {
         
         cameraObjeto.position.y = 1.6;
     }
+
 });
