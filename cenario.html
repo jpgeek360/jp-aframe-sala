@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Sala Interativa Modular</title>
+    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/nipplejs/0.10.0/nipplejs.min.js"></script>
+    <script src="logica.js"></script>
+</head>
+<body>
+    <div id="container-ui" style="position: absolute; bottom: 20px; left: 20px; width: 150px; height: 150px; z-index: 999;">
+        <div id="zona-joystick" style="width: 100%; height: 100%;"></div>
+    </div>
+
+    <a-scene shadow="type: pcfsoft">
+        
+        <a-assets>
+            <video id="video1" src="videos/video_1.mp4" loop playsinline></video>
+            <video id="video2" src="videos/video_2.mp4" loop playsinline></video>
+            <video id="video3" src="videos/video_3.mp4" loop playsinline></video>
+        </a-assets>
+
+        <a-plane position="0 0 0" rotation="-90 0 0" width="12" height="12" color="#D2B48C" shadow="receive: true"></a-plane>
+        <a-plane position="0 3.5 0" rotation="90 0 0" width="12" height="12" color="#FFFFFF"></a-plane>
+        <a-box position="0 1.75 -6" width="12" height="3.5" depth="0.2" color="#EAEAEA" shadow="receive: true"></a-box>
+        <a-box position="0 1.75 6" width="12" height="3.5" depth="0.2" color="#EAEAEA" shadow="receive: true"></a-box>
+        <a-box position="-6 1.75 0" width="0.2" height="3.5" depth="12" color="#DCDCDC" shadow="receive: true"></a-box>
+        <a-box position="6 1.75 0" width="0.2" height="3.5" depth="12" color="#DCDCDC" shadow="receive: true"></a-box>
+
+        <a-entity position="0 0 2">
+            <a-box position="0 0.2 0" width="3.6" height="0.4" depth="1.2" color="#333333" shadow="cast: true"></a-box>
+            <a-box position="0 0.5 0.1" width="3.4" height="0.2" depth="1.0" color="#4F4F4F" shadow="cast: true"></a-box>
+            <a-box position="0 0.9 0.5" width="3.6" height="1.0" depth="0.2" color="#333333" shadow="cast: true"></a-box>
+            <a-box position="-1.7 0.65 0" width="0.2" height="0.7" depth="1.2" color="#333333" shadow="cast: true"></a-box>
+            <a-box position="1.7 0.65 0" width="0.2" height="0.7" depth="1.2" color="#333333" shadow="cast: true"></a-box>
+        </a-entity>
+        <a-entity position="0 0 -1.5">
+            <a-cylinder position="0 0.5 0" radius="1" height="0.05" color="#AADDFF" opacity="0.6" shadow="cast: true"></a-cylinder>
+            <a-cylinder position="0 0.25 0" radius="0.4" height="0.5" color="#DDDDDD" shadow="cast: true"></a-cylinder>
+        </a-entity>
+
+        <a-entity id="area-tv" position="0 0 -5">
+            <a-box position="0 0.3 0" width="4" height="0.6" depth="0.8" color="#8B5A2B" shadow="cast: true"></a-box>
+            <a-box position="0 0.65 0" width="0.8" height="0.05" depth="0.3" color="#111111" shadow="cast: true"></a-box>
+            <a-box position="0 0.8 0" width="0.1" height="0.3" depth="0.1" color="#111111" shadow="cast: true"></a-box>
+            
+            <a-box position="0 1.55 0" width="3.1" height="1.9" depth="0.05" color="#050505" shadow="cast: true"></a-box>
+            <a-plane id="tela-desligada" position="0 1.6 0.03" width="2.9" height="1.6" color="#050505"></a-plane>
+            <a-video id="tela-tv" visible="false" src="#video1" position="0 1.6 0.04" width="2.9" height="1.6"></a-video>
+
+            <a-entity position="0 0.7 0.03">
+                <a-entity id="grupo-ligar" visible="false">
+                    <a-circle class="clicavel" position="-1.3 0 0" radius="0.0416" color="#4CC3D9" botao-ligar></a-circle>
+                    <a-text value="PWR" position="-1.3 -0.08 0" align="center" width="1" color="#FFF"></a-text>
+                </a-entity>
+
+                <a-entity id="grupo-canais" visible="false">
+                    <a-circle class="clicavel" position="1.1 0 0" radius="0.0416" color="#EF2D5E" botao-canal="acao: anterior"></a-circle>
+                    <a-text value="ANT" position="1.1 -0.08 0" align="center" width="1" color="#FFF"></a-text>
+
+                    <a-circle class="clicavel" position="1.3 0 0" radius="0.0416" color="#FFC65D" botao-canal="acao: proximo"></a-circle>
+                    <a-text value="PRX" position="1.3 -0.08 0" align="center" width="1" color="#FFF"></a-text>
+                </a-entity>
+            </a-entity>
+        </a-entity>
+
+        <a-light type="ambient" color="#666666"></a-light>
+        <a-light type="point" position="0 3 0" intensity="0.8" castShadow="true"></a-light>
+
+        <a-camera position="0 1.6 4" look-controls wasd-controls="acceleration: 15"
+                  controle-joystick
+                  sensor-proximidade="alvo: #area-tv; mao: #mao-jogador; distancia: 3">
+            
+            <a-entity cursor="fuse: false"
+                      raycaster="objects: .clicavel"
+                      position="0 0 -1"
+                      geometry="primitive: ring; radiusInner: 0.01; radiusOuter: 0.015"
+                      material="color: white; shader: flat"
+                      animation__click="property: scale; startEvents: click; easing: easeInCubic; dur: 150; from: 0.1 0.1 0.1; to: 1 1 1">
+            </a-entity>
+
+            <a-entity id="mao-jogador" visible="false" position="0.4 -0.4 -0.8" rotation="-20 -15 10"
+                      animation__pos="property: position; to: 0.4 -0.38 -0.8; dir: alternate; dur: 2000; loop: true; easing: easeInOutSine"
+                      animation__rot="property: rotation; to: -22 -16 12; dir: alternate; dur: 2300; loop: true; easing: easeInOutSine">
+                
+                <a-box position="0 0 0" width="0.06" height="0.22" depth="0.02" color="#222222"></a-box>
+                <a-box position="0 0.08 0.01" width="0.04" height="0.04" depth="0.01" color="#FF0000"></a-box>
+                <a-box position="0 0.02 0.01" width="0.04" height="0.02" depth="0.01" color="#555555"></a-box>
+                <a-box position="0.04 0 -0.02" width="0.03" height="0.15" depth="0.08" color="#F1C27D"></a-box>
+                
+                <a-box id="polegar" position="0.02 0.05 0.02" rotation="0 0 30" width="0.02" height="0.08" depth="0.02" color="#E0B16C"></a-box>
+                
+                <a-box position="-0.03 0.05 -0.01" rotation="0 90 0" width="0.08" height="0.025" depth="0.02" color="#E0B16C"></a-box>
+                <a-box position="-0.03 0.01 -0.01" rotation="0 90 0" width="0.08" height="0.025" depth="0.02" color="#E0B16C"></a-box>
+                <a-box position="-0.03 -0.03 -0.01" rotation="0 90 0" width="0.08" height="0.025" depth="0.02" color="#E0B16C"></a-box>
+                <a-box position="-0.03 -0.07 -0.01" rotation="0 90 0" width="0.06" height="0.025" depth="0.02" color="#E0B16C"></a-box>
+                <a-cylinder position="0.05 -0.15 -0.02" radius="0.04" height="0.2" color="#F1C27D"></a-cylinder>
+            </a-entity>
+        </a-camera>
+
+    </a-scene>
+</body>
+</html>
